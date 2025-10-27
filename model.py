@@ -11,19 +11,41 @@ class Model(nn.Module):
         self.output_size = output_size
         self.criterion = criterion
         self.optimizer = optimizer
-        self.kernel_size = kernel_size
+        self.layer_kernel_size = kernel_size
+        self.pool_kernel_size = 2
+        self.total_loss = 0
+
 
         # Define the model's Layers
-        self.layer1 = nn.Conv2d(self.input_size, (32,32), self.kernel_size, padding=1)
-        self.relu = nn.ReLU()
-        self.pooling = nn.MaxPool2d(self.kernel_size)
-        self.layer2 = nn.Conv2d((32,32), (16,16), self.kernel_size, padding=1)
-        self.layer3 = nn.Conv2d((16,16), (8,8), self.kernel_size, padding=1)
-        self.flatten() = nn.Flatten()
+        self.layer1 = nn.Conv2d(self.input_size, 16, self.layer_kernel_size, padding=1)
+        self.layer2 = nn.Conv2d(16, 32, self.layer_kernel_size, padding=1)
+        self.layer3 = nn.Conv2d(32, 64, self.layer_kernel_size, padding=1)
         self.layer4 = nn.Linear(64, output_size)
+        self.flatten = nn.Flatten()
+        self.relu = nn.ReLU()
+        self.pooling = nn.MaxPool2d(self.pool_kernel_size)
+        
 
-        return 0
-    def forward():
-        return 0
+       
+    def forward(self, x):
+        x = self.layer1(x)
+        x = self.relu(x)
+        x = self.pooling(x)
+        x = self.layer2(x)
+        x = self.relu(x)
+        x = self.pooling(x)
+        x = self.layer3(x)
+        x = self.relu(x)
+        x = self.pooling(x)
+        return x
+    
+    def one_epoch(self, x, y):
+        self.optimizer.zero_grad() # clear old gradients
+        outputs = self.forward(x) # run the model
+        print(outputs.shape)
+        loss = self.criterion(outputs, y) # calcualte loss
+        loss.backward() #compute the gradients
+        self.optimizer.step() # update the weights
+        return loss.item() # numerical loss
     def predict():
         return
