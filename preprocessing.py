@@ -6,7 +6,7 @@ import numpy as np
 from pathlib import Path
 
 
-class Preprocessing:
+class Preprocessor:
 
     def __init__(self, std_vals=[0.1357, 0.1572, 0.1751], mean_vals=[0.7632, 0.5380, 0.5615]):
         self.results_dir = Path("./results")
@@ -52,6 +52,7 @@ class Preprocessing:
 
         # print("Mean after transform:", mean)
         # print("Std after transform:", std)
+        return self.train_loader, self.val_loader, self.test_loader
     def Calc_STD(self):
         train_imgs = torch.tensor(self.train.imgs, dtype=torch.float32) / 255.0       
         std_vals = train_imgs.std(dim=(0,1,2))
@@ -62,10 +63,10 @@ class Preprocessing:
         mean_vals = train_imgs.mean(dim=(0,1,2))
         return mean_vals
     
-preprocessor = Preprocessing()
-preprocessor.Create_Loaders(32)
-std_vals = preprocessor.Calc_STD()
-mean_vals = preprocessor.Calc_Mean()
+# preprocessor = Preprocessor()
+# preprocessor.Create_Loaders(32)
+# std_vals = preprocessor.Calc_STD()
+# mean_vals = preprocessor.Calc_Mean()
 
-# print(std_vals)
-# print(mean_vals)
+# # print(std_vals)
+# # print(mean_vals)
