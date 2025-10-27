@@ -1,6 +1,6 @@
-# Ignore Results
+# Ignore Results and PDFS
 results/
-
+*.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
